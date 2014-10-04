@@ -23,6 +23,9 @@
 
     module.directive('ngcTable', ['$templateCache', '$sce', '$timeout', 'contentUpdatedEvent', function($templateCache, $sce, $timeout, contentUpdatedEvent) {
 
+        // Wait delay before refreshing the scrollbar
+        var scrollbarRefreshDelay = 10;
+
         /**
          * ngcTable Controller declaration. The format is given to be able to minify the directive. The scope is
          * injected.
@@ -654,6 +657,10 @@
                         }
                     };
 
+                    /**
+                     * Refresh the scrollbar height based on the table body height
+                     * @note Does not handle the horizontal scenario yet
+                     */
                     scope.$$refreshScrollbars = function() {
                         // Refresh the scrollbars
                         var ratio;
@@ -682,19 +689,24 @@
                         }
                     };
 
-                    var refreshDelay = 10;
-                    scope.$$scheduledScrollbarRefresh = function() {
+                    /**
+                     * Schedule a scrollbar refresh in `scrollbarRefreshDelay` milliseconds.
+                     * We need this delay to give enough time for the browser to stabilise its styles.
+                     * When used, it will check if we already a scheduled scrollbar refresh.
+                     * If so, it will cancel it and schedule a new one instead.
+                     */
+                    var $$scheduledScrollbarRefresh = function() {
                         var previous = $$scheduledScrollbarRefresh.previous;
-                        if (previous) { // if we already scheduled a scrollbar refresh
-                            $timeout.cancel(previous); // cancel previous one
+                        if (previous) {
+                            $timeout.cancel(previous);
                         }
 
-                        $$scheduledScrollbarRefresh.previous = $timeout(function(){ // schedule refresh of scrollbars
+                        $$scheduledScrollbarRefresh.previous = $timeout(function () { // schedule refresh
                             $$scheduledScrollbarRefresh.previous = null;
                             scope.$$refreshScrollbars();
-                        }, refreshDelay);
+                        }, scrollbarRefreshDelay);
                     };
-                    var $$scheduledScrollbarRefresh = scope.$$scheduledScrollbarRefresh;
+                    scope.$$scheduledScrollbarRefresh = $$scheduledScrollbarRefresh;
 
                     scope.$watch(
                         'data',
@@ -937,7 +949,7 @@
          * @param {string} orientation Orientation to check. e.g. 'horizontal' or 'vertical'
          * @param {object} scope Angular scope
          * @param {DOMElement} domEl DOM element where we check its dimensions
-         * @returns {Function} Returns a deregistration function to cancel the scope.$watch()
+         * @returns {Function} Returns a unsubscribe function to cancel the scope.$watch()
          */
         var tableResizeHandler = function (orientation, scope, domEl) {
             var watchGetter;
