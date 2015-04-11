@@ -56,17 +56,17 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "                <!-- Cells for left fixed columns -->\n" +
     "                <td ng-repeat=\"column in $$leftFixedColumns\"\n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
+    "                    ng-click=\"$$dispatchEvent('click', $event, $$topLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-dblclick=\"$$dispatchEvent('dblclick', $event, $$topLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-keydown=\"$$dispatchEvent('keydown', $event, $$topLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-keypress=\"$$dispatchEvent('keypress', $event, $$topLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-keyup=\"$$dispatchEvent('keyup', $event, $$topLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-mousedown=\"$$dispatchEvent('mousedown', $event, $$topLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseleave=\"$$dispatchEvent('mouseleave', $event, $$topLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseenter=\"$$dispatchEvent('mouseenter', $event, $$topLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-mousemove=\"$$dispatchEvent('mousemove', $event, $$topLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseover=\"$$dispatchEvent('mouseover', $event, $$topLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseup=\"$$dispatchEvent('mouseup', $event, $$topLeftData[$parent.$index][$index])\"\n" +
     "                    ng-class=\"{first: $first, last: $last}\"\n" +
     "                    class=\"ngc left header cell {{$$topLeftData[$parent.$index][$index].clazz}} {{column.clazz}}\"\n" +
     "                    style=\"{{$$topLeftData[$parent.$index][$index].style}}; {{row.height}}; {{column.style}}\">\n" +
@@ -81,17 +81,17 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "                <!-- Cells for middle variable columns -->\n" +
     "                <td ng-repeat=\"column in $$variableCenterColumns\"\n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
+    "                    ng-click=\"$$dispatchEvent('click', $event, $$topCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-dblclick=\"$$dispatchEvent('dblclick', $event, $$topCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-keydown=\"$$dispatchEvent('keydown', $event, $$topCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-keypress=\"$$dispatchEvent('keypress', $event, $$topCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-keyup=\"$$dispatchEvent('keyup', $event, $$topCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mousedown=\"$$dispatchEvent('mousedown', $event, $$topCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseleave=\"$$dispatchEvent('mouseleave', $event, $$topCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseenter=\"$$dispatchEvent('mouseenter', $event, $$topCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mousemove=\"$$dispatchEvent('mousemove', $event, $$topCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseover=\"$$dispatchEvent('mouseover', $event, $$topCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseup=\"$$dispatchEvent('mouseup', $event, $$topCenterData[$parent.$index][$index])\"\n" +
     "                    ng-class=\"{first: $first, last: $last}\"\n" +
     "                    class=\"ngc center header cell {{$$topCenterData[$parent.$index][$index].clazz}} {{column.clazz}}\"\n" +
     "                    style=\"{{$$topCenterData[$parent.$index][$index].style}}; {{row.height}}; {{column.style}}\">\n" +
@@ -106,17 +106,17 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "                <!-- Cells for right fixed columns -->\n" +
     "                <td ng-repeat=\"column in $$rightFixedColumns\"\n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
+    "                    ng-click=\"$$dispatchEvent('click', $event, $$topRightData[$parent.$index][$index])\"\n" +
+    "                    ng-dblclick=\"$$dispatchEvent('dblclick', $event, $$topRightData[$parent.$index][$index])\"\n" +
+    "                    ng-keydown=\"$$dispatchEvent('keydown', $event, $$topRightData[$parent.$index][$index])\"\n" +
+    "                    ng-keypress=\"$$dispatchEvent('keypress', $event, $$topRightData[$parent.$index][$index])\"\n" +
+    "                    ng-keyup=\"$$dispatchEvent('keyup', $event, $$topRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mousedown=\"$$dispatchEvent('mousedown', $event, $$topRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseleave=\"$$dispatchEvent('mouseleave', $event, $$topRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseenter=\"$$dispatchEvent('mouseenter', $event, $$topRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mousemove=\"$$dispatchEvent('mousemove', $event, $$topRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseover=\"$$dispatchEvent('mouseover', $event, $$topRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseup=\"$$dispatchEvent('mouseup', $event, $$topRightData[$parent.$index][$index])\"\n" +
     "                    ng-class=\"{first: $first, last: $last}\"\n" +
     "                    class=\"ngc right header cell {{$$topRightData[$parent.$index][$index].clazz}} {{column.clazz}}\"\n" +
     "                    style=\"{{$$topRightData[$parent.$index][$index].style}}; {{row.height}}; {{column.style}}\">\n" +
@@ -145,17 +145,17 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "                <!-- Cells for left fixed columns -->\n" +
     "                <td ng-repeat=\"column in $$leftFixedColumns\"\n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
+    "                    ng-click=\"$$dispatchEvent('click', $event, $$middleLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-dblclick=\"$$dispatchEvent('dblclick', $event, $$middleLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-keydown=\"$$dispatchEvent('keydown', $event, $$middleLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-keypress=\"$$dispatchEvent('keypress', $event, $$middleLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-keyup=\"$$dispatchEvent('keyup', $event, $$middleLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-mousedown=\"$$dispatchEvent('mousedown', $event, $$middleLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseleave=\"$$dispatchEvent('mouseleave', $event, $$middleLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseenter=\"$$dispatchEvent('mouseenter', $event, $$middleLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-mousemove=\"$$dispatchEvent('mousemove', $event, $$middleLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseover=\"$$dispatchEvent('mouseover', $event, $$middleLeftData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseup=\"$$dispatchEvent('mouseup', $event, $$middleLeftData[$parent.$index][$index])\"\n" +
     "                    ng-class=\"{first: $first, last: $last}\"\n" +
     "                    class=\"ngc left middle cell {{$$middleLeftData[$parent.$index][$index].clazz}} {{column.clazz}}\"\n" +
     "                    style=\"{{$$middleLeftData[$parent.$index][$index].style}} ; {{row.height}}; {{column.style}}\">\n" +
@@ -170,17 +170,17 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "                <!-- Cells for middle variable columns -->\n" +
     "                <td ng-repeat=\"column in $$variableCenterColumns\"\n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
+    "                    ng-click=\"$$dispatchEvent('click', $event, $$middleCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-dblclick=\"$$dispatchEvent('dblclick', $event, $$middleCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-keydown=\"$$dispatchEvent('keydown', $event, $$middleCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-keypress=\"$$dispatchEvent('keypress', $event, $$middleCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-keyup=\"$$dispatchEvent('keyup', $event, $$middleCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mousedown=\"$$dispatchEvent('mousedown', $event, $$middleCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseleave=\"$$dispatchEvent('mouseleave', $event, $$middleCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseenter=\"$$dispatchEvent('mouseenter', $event, $$middleCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mousemove=\"$$dispatchEvent('mousemove', $event, $$middleCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseover=\"$$dispatchEvent('mouseover', $event, $$middleCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseup=\"$$dispatchEvent('mouseup', $event, $$middleCenterData[$parent.$index][$index])\"\n" +
     "                    ng-class=\"{first: $first, last: $last}\"\n" +
     "                    class=\"ngc center cell middle {{$$middleCenterData[$parent.$index][$index].clazz}} {{column.clazz}}\"\n" +
     "                    style=\"{{$$middleCenterData[$parent.$index][$index].style}}; {{row.height}}; {{column.style}}\">\n" +
@@ -195,17 +195,17 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "                <!-- Cells for right fixed columns -->\n" +
     "                <td ng-repeat=\"column in $$rightFixedColumns\"\n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
+    "                    ng-click=\"$$dispatchEvent('click', $event, $$middleRightData[$parent.$index][$index])\"\n" +
+    "                    ng-dblclick=\"$$dispatchEvent('dblclick', $event, $$middleRightData[$parent.$index][$index])\"\n" +
+    "                    ng-keydown=\"$$dispatchEvent('keydown', $event, $$middleRightData[$parent.$index][$index])\"\n" +
+    "                    ng-keypress=\"$$dispatchEvent('keypress', $event, $$middleRightData[$parent.$index][$index])\"\n" +
+    "                    ng-keyup=\"$$dispatchEvent('keyup', $event, $$middleRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mousedown=\"$$dispatchEvent('mousedown', $event, $$middleRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseleave=\"$$dispatchEvent('mouseleave', $event, $$middleRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseenter=\"$$dispatchEvent('mouseenter', $event, $$middleRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mousemove=\"$$dispatchEvent('mousemove', $event, $$middleRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseover=\"$$dispatchEvent('mouseover', $event, $$middleRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseup=\"$$dispatchEvent('mouseup', $event, $$middleRightData[$parent.$index][$index])\"\n" +
     "                    ng-class=\"{first: $first, last: $last}\"\n" +
     "                    class=\"ngc right cell middle {{$$middleRightData[$parent.$index][$index].clazz}} {{column.clazz}}\"\n" +
     "                    style=\"{{$$middleRightData[$parent.$index][$index].style}}; {{row.height}}; {{column.style}}\">\n" +
@@ -236,17 +236,17 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "                <!-- Cells for left fixed columns -->\n" +
     "                <td  ng-repeat=\"column in $$leftFixedColumns\"\n" +
-    "                     \n" +
-    "                     \n" +
-    "                     \n" +
-    "                     \n" +
-    "                     \n" +
-    "                     \n" +
-    "                     \n" +
-    "                     \n" +
-    "                     \n" +
-    "                     \n" +
-    "                     \n" +
+    "                     ng-click=\"$$dispatchEvent('click', $event, $$bottomLeftData[$parent.$index][$index])\"\n" +
+    "                     ng-dblclick=\"$$dispatchEvent('dblclick', $event, $$bottomLeftData[$parent.$index][$index])\"\n" +
+    "                     ng-keydown=\"$$dispatchEvent('keydown', $event, $$bottomLeftData[$parent.$index][$index])\"\n" +
+    "                     ng-keypress=\"$$dispatchEvent('keypress', $event, $$bottomLeftData[$parent.$index][$index])\"\n" +
+    "                     ng-keyup=\"$$dispatchEvent('keyup', $event, $$bottomLeftData[$parent.$index][$index])\"\n" +
+    "                     ng-mousedown=\"$$dispatchEvent('mousedown', $event, $$bottomLeftData[$parent.$index][$index])\"\n" +
+    "                     ng-mouseleave=\"$$dispatchEvent('mouseleave', $event, $$bottomLeftData[$parent.$index][$index])\"\n" +
+    "                     ng-mouseenter=\"$$dispatchEvent('mouseenter', $event, $$bottomLeftData[$parent.$index][$index])\"\n" +
+    "                     ng-mousemove=\"$$dispatchEvent('mousemove', $event, $$bottomLeftData[$parent.$index][$index])\"\n" +
+    "                     ng-mouseover=\"$$dispatchEvent('mouseover', $event, $$bottomLeftData[$parent.$index][$index])\"\n" +
+    "                     ng-mouseup=\"$$dispatchEvent('mouseup', $event, $$bottomLeftData[$parent.$index][$index])\"\n" +
     "                     ng-class=\"{first: $first, last: $last}\"\n" +
     "                     class=\"ngc left footer cell {{$$bottomLeftData[$parent.$index][$index].clazz}} {{column.clazz}}\"\n" +
     "                     style=\"{{$$bottomLeftData[$parent.$index][$index].style}}; {{row.height}}; {{column.style}}\">\n" +
@@ -261,17 +261,17 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "                <!-- Cells for middle variable columns -->\n" +
     "                <td ng-repeat=\"column in $$variableCenterColumns\"\n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
+    "                    ng-click=\"$$dispatchEvent('click', $event, $$bottomCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-dblclick=\"$$dispatchEvent('dblclick', $event, $$bottomCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-keydown=\"$$dispatchEvent('keydown', $event, $$bottomCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-keypress=\"$$dispatchEvent('keypress', $event, $$bottomCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-keyup=\"$$dispatchEvent('keyup', $event, $$bottomCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mousedown=\"$$dispatchEvent('mousedown', $event, $$bottomCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseleave=\"$$dispatchEvent('mouseleave', $event, $$bottomCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseenter=\"$$dispatchEvent('mouseenter', $event, $$bottomCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mousemove=\"$$dispatchEvent('mousemove', $event, $$bottomCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseover=\"$$dispatchEvent('mouseover', $event, $$bottomCenterData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseup=\"$$dispatchEvent('mouseup', $event, $$bottomCenterData[$parent.$index][$index])\"\n" +
     "                    ng-class=\"{first: $first, last: $last}\"\n" +
     "                    class=\"ngc center footer cell {{$$bottomCenterData[$parent.$index][$index].clazz}} {{column.clazz}}\"\n" +
     "                    style=\"{{$$bottomCenterData[$parent.$index][$index].style}}; {{row.height}}; {{column.style}}\">\n" +
@@ -286,17 +286,17 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
     "\n" +
     "                <!-- Cells for right fixed columns -->\n" +
     "                <td ng-repeat=\"column in $$rightFixedColumns\"\n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
-    "                    \n" +
+    "                    ng-click=\"$$dispatchEvent('click', $event, $$bottomRightData[$parent.$index][$index])\"\n" +
+    "                    ng-dblclick=\"$$dispatchEvent('dblclick', $event, $$bottomRightData[$parent.$index][$index])\"\n" +
+    "                    ng-keydown=\"$$dispatchEvent('keydown', $event, $$bottomRightData[$parent.$index][$index])\"\n" +
+    "                    ng-keypress=\"$$dispatchEvent('keypress', $event, $$bottomRightData[$parent.$index][$index])\"\n" +
+    "                    ng-keyup=\"$$dispatchEvent('keyup', $event, $$bottomRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mousedown=\"$$dispatchEvent('mousedown', $event, $$bottomRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseleave=\"$$dispatchEvent('mouseleave', $event, $$bottomRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseenter=\"$$dispatchEvent('mouseenter', $event, $$bottomRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mousemove=\"$$dispatchEvent('mousemove', $event, $$bottomRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseover=\"$$dispatchEvent('mouseover', $event, $$bottomRightData[$parent.$index][$index])\"\n" +
+    "                    ng-mouseup=\"$$dispatchEvent('mouseup', $event, $$bottomRightData[$parent.$index][$index])\"\n" +
     "                    ng-class=\"{first: $first, last: $last}\"\n" +
     "                    class=\"ngc right footer cell {{$$bottomRightData[$parent.$index][$index].clazz}} {{column.clazz}}\"\n" +
     "                    style=\"{{$$bottomRightData[$parent.$index][$index].style}}; {{row.height}}; {{column.style}}\">\n" +
@@ -1407,9 +1407,9 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
 
                         var scheduledScrollProcess, // timeout id of the scheduled scroll event callback
                             scheduledWheelProcess, // timeout id of the scheduled wheel event callback
-                            defaultScrollDelay = angular.isDefined(scope.scrollDelay) ? scope.scrollDelay : 120, // default scroll delay (ms)
+                            defaultScrollDelay = 120, // default scroll delay (ms)
+                            scrollDelay = angular.isDefined(scope.scrollDelay) ? scope.scrollDelay : defaultScrollDelay, // current scroll delay (ms)
                             defaultWheelDelay = angular.isDefined(scope.wheelScrollDelay) ? scope.wheelScrollDelay : 500, // default wheel delay (ms)
-                            scrollDelay = defaultScrollDelay, // current scroll delay (ms)
                             parentEl = iElement.parent(),
                             shouldResizeVerticalScrollbar = angular.isDefined(scope.verticalScrollbarAutoResize) ? scope.verticalScrollbarAutoResize : true; // parent DOM element of this directive's DOM root
 
@@ -1528,13 +1528,13 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
                         updateVScrollBarHeight();
 
 
+                        var tbodyEl = getClosestParentTag(parentEl, 'TBODY');
+                        if (!tbodyEl.length) {
+                            throw new Error("Unable to find TBODY tag from the scrollbar wrapper");
+                        }
+
                         // vertical scrolling perks
                         if (parentEl.hasClass('vertical')) {
-                            var tbodyEl = getClosestParentTag(parentEl, 'TBODY');
-                            if (!tbodyEl.length) {
-                                throw new Error("Unable to find TBODY tag from the scrollbar wrapper");
-                            }
-
                             // Handle vertical scroll triggered by mouse wheel over the whole table area
                             parentEl.parent().parent().parent().on('wheel', function(evt){
                                 var target = evt.target,
@@ -1551,7 +1551,7 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
 
                                     // if we can't scroll further in that direction
                                     if ((initScrollTop === 0 && lineScrollOffset < 0) ||
-                                        (lineScrollOffset > 0 && (initScrollTop + parentElDom.offsetHeight) === scrollHeight)) {
+                                        ((initScrollTop + parentElDom.offsetHeight) === scrollHeight && lineScrollOffset > 0)) {
                                         return;
                                     }
 
@@ -1561,7 +1561,7 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
                                     } else if (parentElDom.doScroll) { // if scrollByLines is not available, try to use the IE similar function
                                         parentElDom.doScroll(lineScrollOffset > 0 ? 'scrollbarDown' : 'scrollbarUp');
                                     } else if (parentElDom.scrollBy) { // if scrollBy is available (an old DOM-0 method)
-                                        parentElDom.scrollBy(0, lineScrollOffset * 10);
+                                        parentElDom.scrollBy(lineScrollOffset * 10);
                                     } else { // last solution, try to do it manually
                                         parentElDom.scrollTop += lineScrollOffset * 10;
                                     }
