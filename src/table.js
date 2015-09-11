@@ -30,17 +30,24 @@
      * @returns {boolean}
      */
     var resizeVerticalScrollBar = function(scrollBar, scrollBarWrapper, innerHeight) {
-        // we need to clear the scrollbar wrapper fixed height,
-        // otherwise it might cause the table size not to shrink to the minimum height properly
-
         var scrollRatio = scrollBarWrapper[0].scrollHeight && scrollBarWrapper[0].scrollTop / scrollBarWrapper[0].scrollHeight,
             initialScrollBarHeight = scrollBarWrapper.height();
 
-        scrollBarWrapper.css('height', 'auto');
+        // we need to clear the scrollbar wrapper fixed height,
+        // otherwise it might cause the table size not to shrink to the minimum height properly
+        //scrollBarWrapper.parent().css('position', 'relative');
+        scrollBarWrapper.css({
+            position: 'absolute',
+            top: 0,
+            left: 0
+        });
 
         var vScrollBarHeight = scrollBarWrapper.parent().height();
 
-        scrollBarWrapper.css('height', vScrollBarHeight + 'px');
+        scrollBarWrapper.css({
+            height: vScrollBarHeight,
+            position: 'relative'
+        });
         scrollBar.css('height', innerHeight);
 
         scrollBarWrapper[0].scrollTop = scrollRatio * scrollBarWrapper[0].scrollHeight;
