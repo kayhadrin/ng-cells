@@ -634,7 +634,6 @@
 
                                 scrollPosition.top = oldRowCount &&
                                     (Math.round((scrollPosition.top + 1) * (newRowCount - rowNumber) / (oldRowCount - rowNumber)) - 1);
-                                scrollPosition.top = Math.min(scrollPosition.top, newRowCount - rowNumber);
                             }
                         }
 
@@ -658,8 +657,6 @@
 
                                 scrollPosition.left = oldColumnCount &&
                                     (Math.round((scrollPosition.left + 1) * (newColumnCount - centerColumnNumber) / (oldColumnCount - centerColumnNumber)) - 1);
-                                scrollPosition.left = Math.min(scrollPosition.left, newColumnCount - centerColumnNumber);
-
                             }
                         }
                     };
