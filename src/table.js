@@ -94,7 +94,7 @@
     module.directive('ngcTable', ['$templateCache', '$sce', '$timeout', 'contentUpdatedEvent', function($templateCache, $sce, $timeout, contentUpdatedEvent) {
 
         // Wait delay before refreshing the scrollbar
-        var refreshDelay = 10;
+        var debounceDelay = 10;
 
         /**
          * ngcTable Controller declaration. The format is given to be able to minify the directive. The scope is
@@ -108,6 +108,9 @@
              */
             this.addRange = function(range) {
                 $scope.ranges.push(range);
+
+                // Call this in case the range is added after the table directive's data is already initialised
+                $scope.$$scheduleDataAndScrollbarsUpdate && $scope.$$scheduleDataAndScrollbarsUpdate();
             };
 
 
@@ -396,7 +399,6 @@
 
 
                 post: function postLink(scope , iElement /*, iAttrs, controller*/) {
-
                     /**
                      * Returns a letter combination for an index
                      * @param index
@@ -668,9 +670,6 @@
                         direction:'none'
                     });
 
-                    // Initialize the data
-                    scope.$$updateData();
-
                     // Update the scroll positions (top and left) for the new data object
                     // It'll translate the old positions to the new ones proportionally
                     scope.$$updateScrollPositions = function (oldData) {
@@ -764,20 +763,26 @@
                         }
                     };
 
-                    scope.$$scheduleScrollbarRefresh = debounce(scope.$$refreshScrollbars, refreshDelay);
+                    scope.$$scheduleScrollbarRefresh = debounce(scope.$$refreshScrollbars, debounceDelay);
+
+                    scope.$$updateDataAndScrollbars = function() {
+                        // Update the data
+                        scope.$$updateData();
+
+                        // Refresh scrollbars
+                        scope.$$scheduleScrollbarRefresh();
+                    };
+                    scope.$$scheduleDataAndScrollbarsUpdate = debounce(angular.bind(this, scope.$$updateDataAndScrollbars), debounceDelay);
+
+                    // Initialize the data
+                    scope.$$updateDataAndScrollbars();
 
                     scope.$watch(
                         'data',
                         function(newValue, oldValue) {
                             if (newValue !== oldValue ) {
                                 scope.$$updateScrollPositions(oldValue);
-
-                                // Update the data
-                                scope.$$updateData();
-
-                                // Refresh scrollbars
-                                // scope.$$refreshScrollbars();
-                                scope.$$scheduleScrollbarRefresh();
+                                scope.$$updateDataAndScrollbars();
                             }
                         }
                     );
