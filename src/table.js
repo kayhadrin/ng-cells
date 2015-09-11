@@ -1204,16 +1204,6 @@
                             // $apply redraws the divs so they reset their position
                             // WARNING: This is quite slow once the number of cells exceeds 300!
                             scope.$apply();
-
-                            // verticalScrollPos = scope.$$verticalScrollbarWrapperElement.scrollTop;
-                            // horizontalScrollPos = scope.$$horizontalScrollbarWrapperElement.scrollLeft;
-
-                            // Therefore we must
-                            // reposition the elements with the saved position
-                            // scope.$$verticalScrollbarWrapperElement.scrollTop = verticalScrollPos;
-                            // scope.$$horizontalScrollbarWrapperElement.scrollLeft = horizontalScrollPos;
-
-                            // rootDirectiveScope.$$scrolling = false;
                         };
 
                         var processScrollEventLater = debounce(angular.bind(this, processScrollEvent), scrollDelay);
