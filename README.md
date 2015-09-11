@@ -3,10 +3,10 @@ ng-cells
 
 AngularJS Table directive
 
-This directive draws a table of data with different features. It has no dependency other than angularjs. it has been
+This directive draws a table of data with different features. It has no dependency other than angularjs. It has been
 tested on Google Chrome, Safari, Opera and Firefox and Internet Explorer 10 (8+ in developer mode)
 
-Tu use this directive, just add the ngcTableDirective as dependency. The template is handle as an external HTML file
+To use this directive, just add the ngcTableDirective as dependency. The template is handled as an external HTML file
 and integrated during the build process in the `ngc-template` module. The template is registered in the angularjs template cache with the key `ngc.table.tpl.html`
 
 # Features
@@ -195,6 +195,9 @@ string values. If the value is a single string, the same width is applied to all
 * `footer-row-heights` The height of the footer rows. See `header-row-heights` for value specification
 * `scroll-top-position` The vertical scroll position. This attribute can be set to scroll programmatically. The diagonalScroll.html test file shows how to bind horizontal and vertical scrollbars
 * `scroll-left-position` The horizontal scroll position. See `scroll-top-position`  
+* `scroll-delay` The scroll delay in ms after which the content is updated after dragging a scrollbar. If set to 0, the content is updated immediately
+* `wheel-scroll-delay` The scroll delay in ms after which the content is updated after using the mouse wheel. This value is strongly related to 'scroll-delay' option. If set to 0, the content is updated immediately
+* `vertical-scrollbar-auto-resize` In some rare contexts, the vertical scrollbar auto resizing features triggers unwanted scroll events leading to erratic scrollbar behaviour. Setting the feature to off solves the issue. Default value is true.
 
 
 ## Range
@@ -215,6 +218,7 @@ AngularJS sanitizer. For security reason, it is better to use the `custom-html-f
 `custom-html-fn`
 * `style-fn` A custom style format function to be applied to the cells. Use it to apply sophisticated styling to the table.
 The function must be of the form `function(value, row, col)` where `value` is the value of the source data at the position `[row][col]`
+* `style` A custom style format to be directly applied to the cells. If provided, it is added to the style from the `style-fn` above.
 * `<event>-fn` Custom event callbacks. The event can be any of `click`, `dblclick`, `mousedown`, `mouseenter`, `mouseleave`
 `mousemove`, `mouseover`, `mouseup` event types. The callback must be of the form `function(event, cellData)` where
 `event` is the initial Javascript event and the `cellData` an object with the following attributes :

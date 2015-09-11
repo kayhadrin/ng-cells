@@ -317,7 +317,7 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
     "            <tr class=\"ngc row scrollbar\">\n" +
     "                <!-- Cells for row headers columns -->\n" +
     "                <td ng-repeat=\"column in $$leftRowHeadersColumns\"\n" +
-    "                    class=\"ngc hscrollbar cell {{column.clazz}}\"\n" +
+    "                    class=\"ngc scrollbar cell {{column.clazz}}\"\n" +
     "                    style=\"{{column.style}}\">\n" +
     "                    <!--<div class=\"ngc row-header-content\"></div>-->\n" +
     "                </td>\n" +
@@ -371,6 +371,9 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
     module.constant('contentUpdatedEvent', 'contentUpdatedEvent');
 
     module.directive('ngcTable', ['$templateCache', '$sce', '$timeout', 'contentUpdatedEvent', function($templateCache, $sce, $timeout, contentUpdatedEvent) {
+
+        // Wait delay before refreshing the scrollbar
+        var scrollbarRefreshDelay = 10;
 
         /**
          * ngcTable Controller declaration. The format is given to be able to minify the directive. The scope is
@@ -744,7 +747,9 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
                     function $$getCellData(scope, row, col) {
                         /* The additional optional class(es) */
                         var clazz = '';
-                        /* The optional style declaration */
+                        /* The optional style function declaration */
+                        var style = '';
+                        /* The optional style function declaration */
                         var styleFn = defaultStyleFn;
                         /* The data format function */
                         var formatFn = defaultFormatFn;
@@ -783,6 +788,7 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
                                 /* Register the CSS class */
                                 if (angular.isString(range.clazz)) clazz = range.clazz;
                                 /* Register the CSS style declaration */
+                                if (angular.isString(range.style)) style = range.style;
                                 if (angular.isFunction(range.styleFn)) styleFn = range['styleFn'];
                                 if (angular.isFunction(range.customHtmlFn)) customHtmlFn = range['customHtmlFn'];
                                 if (angular.isFunction(range.customTrustedHtmlFn)) customTrustedHtmlFn = range['customTrustedHtmlFn'];
@@ -807,13 +813,14 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
                         if (customCellTemplate == null || customCellTemplate == '') { // null, undefined or empty string
                             customHTML = (angular.isDefined(customTrustedHtmlFn)) ? $sce.trustAsHtml(customTrustedHtmlFn(data, row, col, value)) : customHtmlFn(data, row, col, value);
                         }
+
                         return {
                             row: row,
                             col: col,
                             data: data,
                             value: value,
                             clazz: clazz,
-                            style: styleFn(data, row, col),
+                            style: styleFn(data, row, col) + ';' + style,
                             eventCallbacks: eventCallbacks,
                             enclosingRanges: enclosingRanges,
                             customCellTemplate: customCellTemplate,
@@ -1003,6 +1010,10 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
                         }
                     };
 
+                    /**
+                     * Refresh the scrollbar height based on the table body height
+                     * @note Does not handle the horizontal scenario yet
+                     */
                     scope.$$refreshScrollbars = function() {
                         // Refresh the scrollbars
                         var ratio;
@@ -1031,19 +1042,24 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
                         }
                     };
 
-                    var refreshDelay = 10;
-                    scope.$$scheduledScrollbarRefresh = function() {
+                    /**
+                     * Schedule a scrollbar refresh in `scrollbarRefreshDelay` milliseconds.
+                     * We need this delay to give enough time for the browser to stabilise its styles.
+                     * When used, it will check if we already a scheduled scrollbar refresh.
+                     * If so, it will cancel it and schedule a new one instead.
+                     */
+                    var $$scheduledScrollbarRefresh = function() {
                         var previous = $$scheduledScrollbarRefresh.previous;
-                        if (previous) { // if we already scheduled a scrollbar refresh
-                            $timeout.cancel(previous); // cancel previous one
+                        if (previous) {
+                            $timeout.cancel(previous);
                         }
 
-                        $$scheduledScrollbarRefresh.previous = $timeout(function(){ // schedule refresh of scrollbars
+                        $$scheduledScrollbarRefresh.previous = $timeout(function () { // schedule refresh
                             $$scheduledScrollbarRefresh.previous = null;
                             scope.$$refreshScrollbars();
-                        }, refreshDelay);
+                        }, scrollbarRefreshDelay);
                     };
-                    var $$scheduledScrollbarRefresh = scope.$$scheduledScrollbarRefresh;
+                    scope.$$scheduledScrollbarRefresh = $$scheduledScrollbarRefresh;
 
                     scope.$watch(
                         'data',
@@ -1181,7 +1197,16 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
                 /* Let read or set the vertical data position in the middle center part */
                 scrollTopPosition: '=?',
                 /* Let read or set the horizontal data position in the middle center part */
-                scrollLeftPosition: '=?'
+                scrollLeftPosition: '=?',
+
+                /* The scroll delay for controlling the refresh behaviour when scrolling, a value of 0 means immediate scrolling */
+                scrollDelay: '=?',
+
+                /* The scroll wheel delay for controlling the refresh behaviour when scrolling with the wheel, a value of 0 means immediate scrolling */
+                wheelScrollDelay: '=?',
+
+                /* If false, disables the vertical scrollbar height resizing. This features sometimes triggers unwanted scroll events. Default is true */
+                verticalScrollbarAutoResize: '=?'
 
             },
             restrict:'AE',
@@ -1217,6 +1242,8 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
                 customCellTemplate: '=?',
                 /* CSS class to be added to the cells */
                 clazz: '=?',
+                /* Direct CSS styling to be injected in the cells */
+                style: '=?',
                 /* CSS style additional declaration to be added to the cell */
                 styleFn: '=?',
                 /* Callback for the 'click' event */
@@ -1255,6 +1282,7 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
                     formatFn: scope.formatFn,
                     clazz: scope.clazz,
                     styleFn: scope.styleFn,
+                    style: scope.style,
                     customHtmlFn: scope.customHtmlFn,
                     customTrustedHtmlFn: scope.customTrustedHtmlFn,
                     customCellTemplate: scope.customCellTemplate,
@@ -1286,7 +1314,7 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
          * @param {string} orientation Orientation to check. e.g. 'horizontal' or 'vertical'
          * @param {object} scope Angular scope
          * @param {DOMElement} domEl DOM element where we check its dimensions
-         * @returns {Function} Returns a deregistration function to cancel the scope.$watch()
+         * @returns {Function} Returns a unsubscribe function to cancel the scope.$watch()
          */
         var tableResizeHandler = function (orientation, scope, domEl) {
             var watchGetter;
@@ -1336,6 +1364,7 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
             restrict:'A',
             replace:true,
             template:'<div class="ngc"></div>',
+
             compile: function(tElement, tAttrs) {
 
 
@@ -1378,10 +1407,11 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
 
                         var scheduledScrollProcess, // timeout id of the scheduled scroll event callback
                             scheduledWheelProcess, // timeout id of the scheduled wheel event callback
-                            defaultScrollDelay = 120, // default scroll delay (ms)
+                            defaultScrollDelay = angular.isDefined(scope.scrollDelay) ? scope.scrollDelay : 120, // default scroll delay (ms)
+                            defaultWheelDelay = angular.isDefined(scope.wheelScrollDelay) ? scope.wheelScrollDelay : 500, // default wheel delay (ms)
                             scrollDelay = defaultScrollDelay, // current scroll delay (ms)
-                            defaultWheelDelay = 500, // default wheel delay (ms)
-                            parentEl = iElement.parent(); // parent DOM element of this directive's DOM root
+                            parentEl = iElement.parent(),
+                            shouldResizeVerticalScrollbar = angular.isDefined(scope.verticalScrollbarAutoResize) ? scope.verticalScrollbarAutoResize : true; // parent DOM element of this directive's DOM root
 
 
 
@@ -1448,7 +1478,9 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
                             // scope.$$verticalScrollbarWrapperElement.scrollTop = verticalScrollPos;
                             // scope.$$horizontalScrollbarWrapperElement.scrollLeft = horizontalScrollPos;
 
-                            updateVScrollBarHeight();
+                            if (shouldResizeVerticalScrollbar ) {
+                                updateVScrollBarHeight();
+                            }
                             // rootDirectiveScope.$$scrolling = false;
                         };
 
@@ -1478,6 +1510,8 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
                         /*
                          Firefox does not handle correctly divs with 100% height in a div of 100% height
                          The timeout calculates the min-height after the actual rendering
+                         In some cases this method triggers additional unwanted scroll events
+                         in this case, you should set verticalScrollbarAutoResize to false
                          */
                         var updateVScrollBarHeight = function() {
                             $timeout(function() {
@@ -1494,13 +1528,13 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
                         updateVScrollBarHeight();
 
 
-                        var tbodyEl = getClosestParentTag(parentEl, 'TBODY');
-                        if (!tbodyEl.length) {
-                            throw new Error("Unable to find TBODY tag from the scrollbar wrapper");
-                        }
-
                         // vertical scrolling perks
                         if (parentEl.hasClass('vertical')) {
+                            var tbodyEl = getClosestParentTag(parentEl, 'TBODY');
+                            if (!tbodyEl.length) {
+                                throw new Error("Unable to find TBODY tag from the scrollbar wrapper");
+                            }
+
                             // Handle vertical scroll triggered by mouse wheel over the whole table area
                             parentEl.parent().parent().parent().on('wheel', function(evt){
                                 var target = evt.target,
@@ -1517,7 +1551,7 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
 
                                     // if we can't scroll further in that direction
                                     if ((initScrollTop === 0 && lineScrollOffset < 0) ||
-                                        ((initScrollTop + parentElDom.offsetHeight) === scrollHeight && lineScrollOffset > 0)) {
+                                        (lineScrollOffset > 0 && (initScrollTop + parentElDom.offsetHeight) === scrollHeight)) {
                                         return;
                                     }
 
@@ -1527,7 +1561,7 @@ angular.module("ngc.table.tpl.html", []).run(["$templateCache", function($templa
                                     } else if (parentElDom.doScroll) { // if scrollByLines is not available, try to use the IE similar function
                                         parentElDom.doScroll(lineScrollOffset > 0 ? 'scrollbarDown' : 'scrollbarUp');
                                     } else if (parentElDom.scrollBy) { // if scrollBy is available (an old DOM-0 method)
-                                        parentElDom.scrollBy(lineScrollOffset * 10);
+                                        parentElDom.scrollBy(0, lineScrollOffset * 10);
                                     } else { // last solution, try to do it manually
                                         parentElDom.scrollTop += lineScrollOffset * 10;
                                     }
