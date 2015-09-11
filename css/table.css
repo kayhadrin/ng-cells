@@ -36,4 +36,5 @@ table.ngc {
 .ngc.scroll-wrapper-cell {
     vertical-align: middle;
     padding: 0px;
+    position: relative;
 }
