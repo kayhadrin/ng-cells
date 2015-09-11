@@ -735,12 +735,17 @@
                         }
                     };
 
+                    if (!angular.isDefined(scope.verticalScrollbarAutoResize)) {
+                        scope.verticalScrollbarAutoResize = true;
+                    }
+
                     /**
                      * Refresh the scrollbar height based on the table body height
                      * @note Does not handle the horizontal scenario yet
-                     * @param {boolean} verticalOnly If true, only update the vertical scrollbars
+                     * @param {boolean} [verticalOnly] If true, only update the vertical scrollbars
+                     * @param {boolean} [forceResizeVerticalScrollbar] If true, force resize of the vertical scrollbar
                      */
-                    scope.$$refreshScrollbars = function(verticalOnly) {
+                    scope.$$refreshScrollbars = function(verticalOnly, forceResizeVerticalScrollbar) {
                         // Refresh the scrollbars
                         var ratio;
                         // This should be factorized with the scrollbar directive
@@ -752,7 +757,10 @@
 
                             if (ratio > 100) {
                                 $$verticalScrollbarParentElement.css('display', 'block');
-                                resizeVerticalScrollBar($$verticalScrollbarElement, $$verticalScrollbarParentElement, ratio + '%');
+
+                                if (forceResizeVerticalScrollbar || scope.verticalScrollbarAutoResize) {
+                                    resizeVerticalScrollBar($$verticalScrollbarElement, $$verticalScrollbarParentElement, ratio + '%');
+                                }
                             } else {
                                 $$verticalScrollbarParentElement.css('display', 'none');
                             }
@@ -770,17 +778,21 @@
 
                     scope.$$scheduleScrollbarRefresh = debounce(scope.$$refreshScrollbars, debounceDelay);
 
-                    scope.$$updateDataAndScrollbars = function() {
+                    /**
+                     * @param {boolean} [verticalOnly] If true, only update the vertical scrollbars
+                     * @param {boolean} [forceResizeVerticalScrollbar] If true, force resize of the vertical scrollbar
+                     */
+                    scope.$$updateDataAndScrollbars = function(verticalOnly, forceResizeVerticalScrollbar) {
                         // Update the data
                         scope.$$updateData();
 
                         // Refresh scrollbars
-                        scope.$$scheduleScrollbarRefresh();
+                        scope.$$scheduleScrollbarRefresh(verticalOnly, forceResizeVerticalScrollbar);
                     };
                     scope.$$scheduleDataAndScrollbarsUpdate = debounce(angular.bind(this, scope.$$updateDataAndScrollbars), debounceDelay);
 
                     // Initialize the data
-                    scope.$$updateDataAndScrollbars();
+                    scope.$$updateDataAndScrollbars(false, true);
 
                     scope.$watch(
                         'data',
