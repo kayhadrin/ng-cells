@@ -1123,8 +1123,7 @@
                         var defaultScrollDelay = angular.isDefined(scope.scrollDelay) ? scope.scrollDelay : 120, // default scroll delay (ms)
                             defaultWheelDelay = angular.isDefined(scope.wheelScrollDelay) ? scope.wheelScrollDelay : 500, // default wheel delay (ms)
                             scrollDelay = defaultScrollDelay, // current scroll delay (ms)
-                            parentEl = iElement.parent(),
-                            shouldResizeVerticalScrollbar = angular.isDefined(scope.verticalScrollbarAutoResize) ? scope.verticalScrollbarAutoResize : true; // parent DOM element of this directive's DOM root
+                            parentEl = iElement.parent();
 
                         var restoreDefaultScrollDelayLater = debounce(function () { // restore the default scroll delay later
                             scrollDelay = defaultScrollDelay;
@@ -1202,9 +1201,6 @@
                             // scope.$$verticalScrollbarWrapperElement.scrollTop = verticalScrollPos;
                             // scope.$$horizontalScrollbarWrapperElement.scrollLeft = horizontalScrollPos;
 
-                            if (shouldResizeVerticalScrollbar ) {
-                                updateVScrollBarHeight();
-                            }
                             // rootDirectiveScope.$$scrolling = false;
                         };
 
@@ -1221,23 +1217,6 @@
                         parentEl.on("scroll", function(e) {
                             processScrollEventLater(e);
                         });
-
-
-
-                        /*
-                         Firefox does not handle correctly divs with 100% height in a div of 100% height
-                         The timeout calculates the min-height after the actual rendering
-                         In some cases this method triggers additional unwanted scroll events
-                         in this case, you should set verticalScrollbarAutoResize to false
-                         */
-                        var updateVScrollBarHeight = function() {
-                            if (iElement.hasClass("vscrollbar")) {
-                                scope.$$scheduleScrollbarRefresh(true);
-                            }
-                        };
-
-                        updateVScrollBarHeight();
-
 
                         // vertical scrolling perks
                         if (parentEl.hasClass('vertical')) {
