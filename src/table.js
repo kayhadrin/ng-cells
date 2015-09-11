@@ -121,8 +121,6 @@
             return {
 
                 pre: function preLink(scope /*, iElement, iAttrs, controller */) {
-                    var i;
-
                     /**
                      * Utility function to create a style declaration based on the value declaration
                      * @param attrName The name of the CSS attribute
